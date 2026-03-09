@@ -1,429 +1,598 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  ShieldCheck, 
-  Info, 
-  Database, 
-  Settings, 
-  Archive, 
-  Globe, 
-  UserCheck, 
-  UserX, 
-  AlertTriangle, 
-  Copyright, 
-  Edit3, 
-  Mail,
-  ChevronRight,
-  Menu,
-  X
-} from 'lucide-react';
-
-export default function App() {
-  const [activeSection, setActiveSection] = useState('section-1');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // 條款資料結構化
-  const policySections = [
-    { id: 'section-1', title: '一、服務說明', icon: <Info size={20} />, content: (
-      <>
-        <p className="mb-4 text-slate-600 leading-relaxed">本應用程式提供個人財務管理與記帳服務，包括但不限於：</p>
-        <ul className="list-disc pl-6 mb-4 text-slate-600 space-y-2">
-          <li>個人交易紀錄</li>
-          <li>分類與帳本管理</li>
-          <li>財務統計與報表</li>
-          <li>雲端資料同步</li>
-          <li>AI 交易解析輔助功能</li>
-          <li>訂閱或內購功能</li>
-        </ul>
-        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-          <p className="text-blue-800 text-sm font-medium">
-            本應用程式僅提供 <span className="font-bold">個人財務管理工具</span>，並不提供任何投資建議、金融服務或財務顧問服務。
-          </p>
-        </div>
-      </>
-    )},
-    { id: 'section-2', title: '二、資料蒐集', icon: <Database size={20} />, content: (
-      <div className="space-y-6">
-        <p className="text-slate-600 leading-relaxed">為提供本服務，本應用程式可能蒐集以下資訊：</p>
-        
-        <div className="bg-white border border-slate-100 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-          <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center"><span className="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-sm mr-2">1</span> 使用者帳號資訊</h4>
-          <p className="text-slate-600 mb-2">當您使用登入功能時，可能會蒐集：</p>
-          <ul className="list-disc pl-6 mb-3 text-slate-600 space-y-1">
-            <li>電子郵件地址</li>
-            <li>使用者識別資訊（Firebase Auth ID）</li>
-          </ul>
-          <p className="text-slate-600 mb-2">此資訊僅用於：</p>
-          <ul className="list-disc pl-6 text-slate-600 space-y-1">
-            <li>使用者身份驗證</li>
-            <li>跨裝置同步資料</li>
-            <li>帳戶管理</li>
-          </ul>
-        </div>
-
-        <div className="bg-white border border-slate-100 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-          <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center"><span className="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-sm mr-2">2</span> 使用者記帳資料</h4>
-          <p className="text-slate-600 mb-2">當您使用本應用程式時，您輸入的以下資料可能會被儲存：</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
-            {['收入或支出紀錄', '交易金額', '交易日期', '分類', '帳本資訊', '備註內容'].map((item, i) => (
-              <div key={i} className="bg-slate-50 text-slate-700 text-sm py-2 px-3 rounded-md border border-slate-100 text-center">{item}</div>
-            ))}
-          </div>
-          <p className="text-slate-600 mb-2">這些資料：</p>
-          <ul className="list-disc pl-6 mb-4 text-slate-600 space-y-1">
-            <li>儲存在您的裝置</li>
-            <li>或同步至雲端資料庫（Firebase Firestore）</li>
-          </ul>
-          <p className="text-amber-600 font-medium text-sm flex items-center">
-            <ShieldCheck size={16} className="mr-1" /> 本應用程式不會將您的財務資料出售或提供給第三方行銷使用。
-          </p>
-        </div>
-
-        <div className="bg-white border border-slate-100 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-          <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center"><span className="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-sm mr-2">3</span> AI 功能資料</h4>
-          <p className="text-slate-600 mb-2">若您使用 AI 交易解析功能：</p>
-          <p className="text-slate-600 mb-3 bg-slate-50 p-3 rounded-lg text-sm border-l-2 border-indigo-400">您輸入的文字可能會被傳送至雲端 AI 服務進行分析，以協助解析交易資訊。</p>
-          <p className="text-slate-600 mb-2">該資料僅用於：</p>
-          <ul className="list-disc pl-6 mb-3 text-slate-600 space-y-1">
-            <li>解析交易內容</li>
-            <li>回傳解析結果</li>
-          </ul>
-          <p className="text-slate-500 text-sm italic">註：AI 服務提供者可能會依其服務條款處理資料。</p>
-        </div>
-
-        <div className="bg-white border border-slate-100 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-          <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center"><span className="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-sm mr-2">4</span> 技術資料</h4>
-          <p className="text-slate-600 mb-2">為維持系統運作，本應用程式可能蒐集：</p>
-          <ul className="list-disc pl-6 mb-3 text-slate-600 space-y-1">
-            <li>裝置類型</li>
-            <li>作業系統版本</li>
-            <li>應用程式版本</li>
-            <li>錯誤紀錄</li>
-          </ul>
-          <p className="text-slate-600 mb-2">這些資料僅用於：</p>
-          <ul className="list-disc pl-6 text-slate-600 space-y-1">
-            <li>改善服務品質</li>
-            <li>修復程式錯誤</li>
-            <li>提升系統穩定性</li>
-          </ul>
-        </div>
-      </div>
-    )},
-    { id: 'section-3', title: '三、資料使用方式', icon: <Settings size={20} />, content: (
-      <>
-        <p className="mb-4 text-slate-600 leading-relaxed">所蒐集之資料可能用於：</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-          {['提供本應用程式功能', '同步使用者資料', '改善產品品質', '提供客戶支援', '防止濫用或非法使用'].map((use, index) => (
-            <div key={index} className="flex items-center bg-white p-3 rounded-lg border border-slate-100 shadow-sm">
-              <div className="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold mr-3">{index + 1}</div>
-              <span className="text-slate-700">{use}</span>
-            </div>
-          ))}
-        </div>
-        <div className="inline-flex items-center bg-amber-50 text-amber-800 px-4 py-3 rounded-lg font-medium border border-amber-200">
-          <AlertTriangle size={18} className="mr-2 text-amber-600" />
-          本應用程式 不會 販售或出租您的個人資料。
-        </div>
-      </>
-    )},
-    { id: 'section-4', title: '四、資料保存', icon: <Archive size={20} />, content: (
-      <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-        <p className="mb-4 text-slate-600 leading-relaxed">您的資料保存期間為：</p>
-        <ul className="space-y-3 mb-6">
-          <li className="flex items-start">
-            <div className="mt-1 bg-green-100 text-green-600 rounded-full p-1 mr-3"><ShieldCheck size={14} /></div>
-            <span className="text-slate-700">您持續使用本服務期間</span>
-          </li>
-          <li className="flex items-start">
-            <div className="mt-1 bg-green-100 text-green-600 rounded-full p-1 mr-3"><ShieldCheck size={14} /></div>
-            <span className="text-slate-700">或直到您刪除帳號或資料</span>
-          </li>
-        </ul>
-        <p className="text-slate-600 bg-slate-50 p-4 rounded-lg border-l-4 border-slate-300">
-          若您刪除帳號，您的雲端資料將在合理時間內刪除。
-        </p>
-      </div>
-    )},
-    { id: 'section-5', title: '五、第三方服務', icon: <Globe size={20} />, content: (
-      <>
-        <p className="mb-4 text-slate-600 leading-relaxed">本應用程式可能使用以下第三方服務：</p>
-        <div className="space-y-4 mb-4">
-          <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between">
-            <div className="mb-2 sm:mb-0">
-              <h5 className="font-bold text-slate-800 text-lg">Firebase (Google)</h5>
-              <p className="text-slate-500 text-sm mt-1">使用於帳號登入與資料同步</p>
-            </div>
-            <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" className="text-indigo-600 text-sm font-medium hover:text-indigo-800 flex items-center">
-              查看隱私政策 <ChevronRight size={14} />
-            </a>
-          </div>
-          <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between">
-            <div className="mb-2 sm:mb-0">
-              <h5 className="font-bold text-slate-800 text-lg">AI 服務</h5>
-              <p className="text-slate-500 text-sm mt-1">Google Gemini 或其他 AI 服務，用於解析交易文字</p>
-            </div>
-            <span className="text-slate-400 text-sm italic">依其服務條款處理</span>
-          </div>
-        </div>
-      </>
-    )},
-    { id: 'section-6', title: '六、使用者權利', icon: <UserCheck size={20} />, content: (
-      <>
-        <p className="mb-4 text-slate-600 leading-relaxed">依據個人資料保護相關法規，您可行使以下權利：</p>
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          {['查詢您的個人資料', '更正您的資料', '刪除您的資料', '停止使用您的資料'].map((right, idx) => (
-            <div key={idx} className="bg-indigo-50/50 border border-indigo-100 p-4 rounded-lg text-center font-medium text-indigo-900">
-              {right}
-            </div>
-          ))}
-        </div>
-        <p className="text-slate-600">若有相關需求，請透過文末的客服方式聯絡我們。</p>
-      </>
-    )},
-    { id: 'section-7', title: '七、帳號刪除', icon: <UserX size={20} />, content: (
-      <div className="bg-red-50 p-6 rounded-xl border border-red-100">
-        <p className="mb-4 text-slate-800 font-medium">您可透過應用程式內的「刪除帳號」功能申請刪除帳號。</p>
-        <h5 className="font-bold text-red-800 mb-2">刪除帳號後：</h5>
-        <ul className="list-disc pl-6 text-red-700 space-y-2">
-          <li>您的雲端資料將被永久刪除</li>
-          <li>您將無法再存取相關資料</li>
-        </ul>
-      </div>
-    )},
-    { id: 'section-8', title: '八、免責聲明', icon: <AlertTriangle size={20} />, content: (
-      <>
-        <p className="mb-4 text-slate-600 leading-relaxed">本應用程式所提供之資料與功能僅供個人參考與記錄用途。</p>
-        <div className="bg-white border border-slate-200 p-5 rounded-xl mb-4 shadow-sm">
-          <p className="font-semibold text-slate-800 mb-3">開發者不保證：</p>
-          <div className="flex flex-wrap gap-3">
-            <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm">資料之完整性</span>
-            <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm">資料之準確性</span>
-            <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm">或任何財務結果</span>
-          </div>
-        </div>
-        <p className="text-slate-500 font-medium text-sm">※ 使用者應自行判斷並承擔使用本應用程式之風險。</p>
-      </>
-    )},
-    { id: 'section-9', title: '九、智慧財產權', icon: <Copyright size={20} />, content: (
-      <>
-        <p className="mb-4 text-slate-600 leading-relaxed">本應用程式之所有內容，包括但不限於：</p>
-        <div className="flex space-x-4 mb-6">
-          {['軟體程式', '設計', '介面', '圖像'].map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center justify-center w-16 h-16 bg-slate-50 rounded-lg border border-slate-200">
-              <span className="text-xs font-bold text-slate-600 mt-1">{item}</span>
-            </div>
-          ))}
-        </div>
-        <p className="text-slate-600 mb-2">均受相關智慧財產權法律保護。未經授權不得：</p>
-        <div className="flex flex-wrap gap-2 text-red-500 font-medium text-sm">
-          <span className="bg-red-50 px-3 py-1 rounded-md">🚫 複製</span>
-          <span className="bg-red-50 px-3 py-1 rounded-md">🚫 修改</span>
-          <span className="bg-red-50 px-3 py-1 rounded-md">🚫 反向工程</span>
-          <span className="bg-red-50 px-3 py-1 rounded-md">🚫 散布</span>
-        </div>
-      </>
-    )},
-    { id: 'section-10', title: '十、條款修改', icon: <Edit3 size={20} />, content: (
-      <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 text-center">
-        <Edit3 size={32} className="mx-auto text-slate-400 mb-3" />
-        <p className="text-slate-700 mb-2">本政策可能因法律或服務需求而更新。</p>
-        <p className="text-slate-500 text-sm">更新版本將於本頁面公告，並自公告日起生效。</p>
-      </div>
-    )},
-    { id: 'section-11', title: '十一、客服聯絡方式', icon: <Mail size={20} />, content: (
-      <div className="bg-gradient-to-br from-indigo-50 to-blue-50 p-6 md:p-8 rounded-2xl border border-indigo-100 text-center">
-        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-indigo-600">
-          <Mail size={32} />
-        </div>
-        <h4 className="text-xl font-bold text-slate-800 mb-2">有任何疑問嗎？</h4>
-        <p className="text-slate-600 mb-6">若您對本政策有任何疑問或建議，歡迎隨時與我們聯絡。</p>
-        <a href="mailto:nicktim1113@icloud.com" className="inline-flex items-center justify-center px-6 py-3 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg">
-          <Mail className="mr-2" size={18} />
-          nicktim1113@icloud.com
-        </a>
-      </div>
-    )}
-  ];
-
-  // 監聽滾動以更新側邊欄高亮
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100;
-      
-      for (const section of policySections) {
-        const element = document.getElementById(section.id);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section.id);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 80,
-        behavior: 'smooth'
-      });
-      setActiveSection(id);
-      setIsMobileMenuOpen(false);
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-indigo-200 selection:text-indigo-900">
-      
-      {/* 頂部導航列 (Mobile) */}
-      <nav className="lg:hidden fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-slate-200 z-50 px-4 py-3 flex justify-between items-center shadow-sm">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-            <ShieldCheck size={18} className="text-white" />
-          </div>
-          <span className="font-bold text-slate-800 tracking-wide">MyFinanceApp</span>
-        </div>
-        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </nav>
-
-      {/* 手機版目錄遮罩 */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-14 bg-white z-40 overflow-y-auto border-t border-slate-100">
-          <div className="p-4 space-y-1 pb-24">
-            {policySections.map((section) => (
-              <button
-                key={section.id}
-                onClick={() => scrollToSection(section.id)}
-                className={`w-full text-left px-4 py-3 rounded-xl flex items-center transition-all ${
-                  activeSection === section.id 
-                    ? 'bg-indigo-50 text-indigo-700 font-semibold' 
-                    : 'text-slate-600 hover:bg-slate-50'
-                }`}
-              >
-                <span className={`mr-3 ${activeSection === section.id ? 'text-indigo-600' : 'text-slate-400'}`}>
-                  {section.icon}
-                </span>
-                {section.title}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* 頁面主要結構 */}
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row pt-16 lg:pt-0">
-        
-        {/* 左側：固定目錄 (Desktop) */}
-        <aside className="hidden lg:block w-72 shrink-0 h-screen sticky top-0 border-r border-slate-200 bg-white/50 backdrop-blur-sm overflow-y-auto custom-scrollbar">
-          <div className="p-8">
-            <div className="flex items-center space-x-3 mb-10">
-              <div className="w-10 h-10 bg-indigo-600 bg-gradient-to-br from-indigo-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
-                <ShieldCheck size={24} className="text-white" />
-              </div>
-              <div>
-                <h1 className="font-bold text-xl text-slate-800 tracking-tight">MyFinanceApp</h1>
-                <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">隱私權政策中心</p>
-              </div>
-            </div>
-
-            <nav className="space-y-1.5 relative">
-              {/* 進度指示線 */}
-              <div className="absolute left-4 top-4 bottom-4 w-px bg-slate-100 -z-10"></div>
-              
-              {policySections.map((section) => (
-                <button
-                  key={section.id}
-                  onClick={() => scrollToSection(section.id)}
-                  className={`w-full text-left px-4 py-2.5 rounded-xl flex items-center text-sm transition-all duration-200 group ${
-                    activeSection === section.id 
-                      ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm ring-1 ring-indigo-100' 
-                      : 'text-slate-500 hover:text-slate-800 hover:bg-white'
-                  }`}
-                >
-                  <span className={`mr-3 p-1.5 rounded-lg transition-colors ${
-                    activeSection === section.id ? 'bg-indigo-100 text-indigo-600' : 'bg-white text-slate-400 border border-slate-100 group-hover:border-slate-300'
-                  }`}>
-                    {section.icon}
-                  </span>
-                  {section.title}
-                </button>
-              ))}
-            </nav>
-          </div>
-        </aside>
-
-        {/* 右側：內容區塊 */}
-        <main className="flex-1 w-full px-5 py-10 lg:px-16 lg:py-20 bg-white shadow-[0_0_40px_-15px_rgba(0,0,0,0.05)] min-h-screen">
-          
-          {/* Hero Header */}
-          <div className="mb-16 border-b border-slate-100 pb-10">
-            <div className="inline-flex items-center px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold tracking-wider mb-6">
-              <span className="w-2 h-2 rounded-full bg-indigo-500 mr-2 animate-pulse"></span>
-              更新日期：2026 年
-            </div>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
-              使用者條款與 <br className="hidden lg:block"/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">
-                隱私權政策
-              </span>
-            </h1>
-            <p className="text-lg text-slate-600 leading-relaxed max-w-3xl">
-              歡迎您使用 <strong className="text-slate-800">MyFinanceApp</strong>（以下稱「本應用程式」）。在您使用本應用程式前，請詳閱以下使用條款與隱私權政策。當您下載、安裝或使用本應用程式，即表示您已閱讀、理解並同意本政策之內容。<br/><br/>
-              <span className="bg-amber-50 text-amber-800 px-2 py-1 rounded font-medium text-sm">若您不同意本政策，請停止使用並刪除本應用程式。</span>
-            </p>
-          </div>
-
-          {/* 政策內容映射 */}
-          <div className="space-y-16">
-            {policySections.map((section) => (
-              <section key={section.id} id={section.id} className="scroll-mt-24 group">
-                <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
-                    {section.icon}
-                  </div>
-                  <h2 className="text-2xl font-bold text-slate-800">{section.title}</h2>
-                </div>
-                <div className="pl-0 lg:pl-16">
-                  {section.content}
-                </div>
-              </section>
-            ))}
-          </div>
-
-          {/* Footer */}
-          <footer className="mt-24 pt-8 border-t border-slate-100 text-center text-slate-500 text-sm flex flex-col lg:flex-row justify-between items-center">
-            <p>© 2026 MyFinanceApp. All rights reserved.</p>
-            <p className="mt-2 lg:mt-0 flex items-center">
-              <ShieldCheck size={14} className="mr-1" /> 致力於保護您的資訊安全
-            </p>
-          </footer>
-
-        </main>
-      </div>
-      
-      {/* 隱藏滾動條的 CSS */}
-      <style dangerouslySetInnerHTML={{__html: `
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyFinanceApp - 使用者條款與隱私權政策</title>
+    <!-- 召喚 Tailwind CSS 雲端裁縫師 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 召喚 FontAwesome 符文畫師 (圖示) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* 隱藏滾動條的魔法 */
         .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
+            width: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
+            background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #e2e8f0;
-          border-radius: 20px;
+            background-color: #e2e8f0;
+            border-radius: 20px;
         }
-        html {
-          scroll-behavior: smooth;
+        
+        /* 選單高亮的過渡動畫 */
+        .nav-item {
+            transition: all 0.2s ease-in-out;
         }
-      `}} />
+        .nav-item.active {
+            background-color: #eef2ff; /* indigo-50 */
+            color: #4338ca; /* indigo-700 */
+            font-weight: 700;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+            --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) #e0e7ff;
+            box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+        }
+        .nav-item.active .nav-icon {
+            background-color: #e0e7ff; /* indigo-100 */
+            color: #4f46e5; /* indigo-600 */
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-indigo-200 selection:text-indigo-900">
+
+    <!-- 頂部導航列 (Mobile) -->
+    <nav class="lg:hidden fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-slate-200 z-50 px-4 py-3 flex justify-between items-center shadow-sm">
+        <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-shield-halved text-white text-sm"></i>
+            </div>
+            <span class="font-bold text-slate-800 tracking-wide">MyFinanceApp</span>
+        </div>
+        <button id="mobile-menu-btn" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+            <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+        </button>
+    </nav>
+
+    <!-- 手機版目錄遮罩 (預設隱藏) -->
+    <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 top-14 bg-white z-40 overflow-y-auto border-t border-slate-100">
+        <div class="p-4 space-y-1 pb-24" id="mobile-nav-container">
+            <!-- 手機版選單會由 JS 自動生成 -->
+        </div>
     </div>
-  );
-}
+
+    <!-- 頁面主要結構 -->
+    <div class="max-w-6xl mx-auto flex flex-col lg:flex-row pt-16 lg:pt-0">
+        
+        <!-- 左側：固定目錄 (Desktop) -->
+        <aside class="hidden lg:block w-72 shrink-0 h-screen sticky top-0 border-r border-slate-200 bg-white/50 backdrop-blur-sm overflow-y-auto custom-scrollbar">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-10">
+                    <div class="w-10 h-10 bg-indigo-600 bg-gradient-to-br from-indigo-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
+                        <i class="fa-solid fa-shield-halved text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl text-slate-800 tracking-tight">MyFinanceApp</h1>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">隱私權政策中心</p>
+                    </div>
+                </div>
+
+                <nav class="space-y-1.5 relative" id="desktop-nav-container">
+                    <!-- 進度指示線 -->
+                    <div class="absolute left-4 top-4 bottom-4 w-px bg-slate-100 -z-10"></div>
+                    <!-- 桌面版選單會由 JS 自動生成 -->
+                </nav>
+            </div>
+        </aside>
+
+        <!-- 右側：內容區塊 -->
+        <main class="flex-1 w-full px-5 py-10 lg:px-16 lg:py-20 bg-white shadow-[0_0_40px_-15px_rgba(0,0,0,0.05)] min-h-screen">
+            
+            <!-- Hero Header -->
+            <div class="mb-16 border-b border-slate-100 pb-10">
+                <div class="inline-flex items-center px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold tracking-wider mb-6">
+                    <span class="w-2 h-2 rounded-full bg-indigo-500 mr-2 animate-pulse"></span>
+                    更新日期：2026 年
+                </div>
+                <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
+                    使用者條款與 <br class="hidden lg:block"/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">
+                        隱私權政策
+                    </span>
+                </h1>
+                <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">
+                    歡迎您使用 <strong class="text-slate-800">MyFinanceApp</strong>（以下稱「本應用程式」）。在您使用本應用程式前，請詳閱以下使用條款與隱私權政策。當您下載、安裝或使用本應用程式，即表示您已閱讀、理解並同意本政策之內容。<br/><br/>
+                    <span class="bg-amber-50 text-amber-800 px-2 py-1 rounded font-medium text-sm">若您不同意本政策，請停止使用並刪除本應用程式。</span>
+                </p>
+            </div>
+
+            <!-- 政策內容區域 -->
+            <div class="space-y-16">
+                
+                <!-- Section 1 -->
+                <section id="section-1" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-solid fa-circle-info text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">一、服務說明</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <p class="mb-4 text-slate-600 leading-relaxed">本應用程式提供個人財務管理與記帳服務，包括但不限於：</p>
+                        <ul class="list-disc pl-6 mb-4 text-slate-600 space-y-2">
+                            <li>個人交易紀錄</li>
+                            <li>分類與帳本管理</li>
+                            <li>財務統計與報表</li>
+                            <li>雲端資料同步</li>
+                            <li>AI 交易解析輔助功能</li>
+                            <li>訂閱或內購功能</li>
+                        </ul>
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                            <p class="text-blue-800 text-sm font-medium">
+                                本應用程式僅提供 <span class="font-bold">個人財務管理工具</span>，並不提供任何投資建議、金融服務或財務顧問服務。
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="section-2" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-solid fa-database text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">二、資料蒐集</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <div class="space-y-6">
+                            <p class="text-slate-600 leading-relaxed">為提供本服務，本應用程式可能蒐集以下資訊：</p>
+                            
+                            <div class="bg-white border border-slate-100 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                                <h4 class="text-lg font-semibold text-slate-800 mb-3 flex items-center"><span class="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-sm mr-2">1</span> 使用者帳號資訊</h4>
+                                <p class="text-slate-600 mb-2">當您使用登入功能時，可能會蒐集：</p>
+                                <ul class="list-disc pl-6 mb-3 text-slate-600 space-y-1">
+                                    <li>電子郵件地址</li>
+                                    <li>使用者識別資訊（Firebase Auth ID）</li>
+                                </ul>
+                                <p class="text-slate-600 mb-2">此資訊僅用於：</p>
+                                <ul class="list-disc pl-6 text-slate-600 space-y-1">
+                                    <li>使用者身份驗證</li>
+                                    <li>跨裝置同步資料</li>
+                                    <li>帳戶管理</li>
+                                </ul>
+                            </div>
+                    
+                            <div class="bg-white border border-slate-100 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                                <h4 class="text-lg font-semibold text-slate-800 mb-3 flex items-center"><span class="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-sm mr-2">2</span> 使用者記帳資料</h4>
+                                <p class="text-slate-600 mb-2">當您使用本應用程式時，您輸入的以下資料可能會被儲存：</p>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
+                                    <div class="bg-slate-50 text-slate-700 text-sm py-2 px-3 rounded-md border border-slate-100 text-center">收入或支出紀錄</div>
+                                    <div class="bg-slate-50 text-slate-700 text-sm py-2 px-3 rounded-md border border-slate-100 text-center">交易金額</div>
+                                    <div class="bg-slate-50 text-slate-700 text-sm py-2 px-3 rounded-md border border-slate-100 text-center">交易日期</div>
+                                    <div class="bg-slate-50 text-slate-700 text-sm py-2 px-3 rounded-md border border-slate-100 text-center">分類</div>
+                                    <div class="bg-slate-50 text-slate-700 text-sm py-2 px-3 rounded-md border border-slate-100 text-center">帳本資訊</div>
+                                    <div class="bg-slate-50 text-slate-700 text-sm py-2 px-3 rounded-md border border-slate-100 text-center">備註內容</div>
+                                </div>
+                                <p class="text-slate-600 mb-2">這些資料：</p>
+                                <ul class="list-disc pl-6 mb-4 text-slate-600 space-y-1">
+                                    <li>儲存在您的裝置</li>
+                                    <li>或同步至雲端資料庫（Firebase Firestore）</li>
+                                </ul>
+                                <p class="text-amber-600 font-medium text-sm flex items-center">
+                                    <i class="fa-solid fa-shield-halved mr-2"></i> 本應用程式不會將您的財務資料出售或提供給第三方行銷使用。
+                                </p>
+                            </div>
+                    
+                            <div class="bg-white border border-slate-100 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                                <h4 class="text-lg font-semibold text-slate-800 mb-3 flex items-center"><span class="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-sm mr-2">3</span> AI 功能資料</h4>
+                                <p class="text-slate-600 mb-2">若您使用 AI 交易解析功能：</p>
+                                <p class="text-slate-600 mb-3 bg-slate-50 p-3 rounded-lg text-sm border-l-2 border-indigo-400">您輸入的文字可能會被傳送至雲端 AI 服務進行分析，以協助解析交易資訊。</p>
+                                <p class="text-slate-600 mb-2">該資料僅用於：</p>
+                                <ul class="list-disc pl-6 mb-3 text-slate-600 space-y-1">
+                                    <li>解析交易內容</li>
+                                    <li>回傳解析結果</li>
+                                </ul>
+                                <p class="text-slate-500 text-sm italic">註：AI 服務提供者可能會依其服務條款處理資料。</p>
+                            </div>
+                    
+                            <div class="bg-white border border-slate-100 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                                <h4 class="text-lg font-semibold text-slate-800 mb-3 flex items-center"><span class="bg-indigo-100 text-indigo-600 w-6 h-6 rounded-full flex items-center justify-center text-sm mr-2">4</span> 技術資料</h4>
+                                <p class="text-slate-600 mb-2">為維持系統運作，本應用程式可能蒐集：</p>
+                                <ul class="list-disc pl-6 mb-3 text-slate-600 space-y-1">
+                                    <li>裝置類型</li>
+                                    <li>作業系統版本</li>
+                                    <li>應用程式版本</li>
+                                    <li>錯誤紀錄</li>
+                                </ul>
+                                <p class="text-slate-600 mb-2">這些資料僅用於：</p>
+                                <ul class="list-disc pl-6 text-slate-600 space-y-1">
+                                    <li>改善服務品質</li>
+                                    <li>修復程式錯誤</li>
+                                    <li>提升系統穩定性</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="section-3" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-solid fa-gear text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">三、資料使用方式</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <p class="mb-4 text-slate-600 leading-relaxed">所蒐集之資料可能用於：</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <div class="flex items-center bg-white p-3 rounded-lg border border-slate-100 shadow-sm">
+                                <div class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold mr-3">1</div>
+                                <span class="text-slate-700">提供本應用程式功能</span>
+                            </div>
+                            <div class="flex items-center bg-white p-3 rounded-lg border border-slate-100 shadow-sm">
+                                <div class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold mr-3">2</div>
+                                <span class="text-slate-700">同步使用者資料</span>
+                            </div>
+                            <div class="flex items-center bg-white p-3 rounded-lg border border-slate-100 shadow-sm">
+                                <div class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold mr-3">3</div>
+                                <span class="text-slate-700">改善產品品質</span>
+                            </div>
+                            <div class="flex items-center bg-white p-3 rounded-lg border border-slate-100 shadow-sm">
+                                <div class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold mr-3">4</div>
+                                <span class="text-slate-700">提供客戶支援</span>
+                            </div>
+                            <div class="flex items-center bg-white p-3 rounded-lg border border-slate-100 shadow-sm md:col-span-2 lg:col-span-1">
+                                <div class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold mr-3">5</div>
+                                <span class="text-slate-700">防止濫用或非法使用</span>
+                            </div>
+                        </div>
+                        <div class="inline-flex items-center bg-amber-50 text-amber-800 px-4 py-3 rounded-lg font-medium border border-amber-200">
+                            <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-600"></i>
+                            本應用程式 不會 販售或出租您的個人資料。
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4 -->
+                <section id="section-4" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-solid fa-box-archive text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">四、資料保存</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                            <p class="mb-4 text-slate-600 leading-relaxed">您的資料保存期間為：</p>
+                            <ul class="space-y-3 mb-6">
+                                <li class="flex items-start">
+                                    <div class="mt-1 bg-green-100 text-green-600 rounded-full p-1.5 mr-3 flex items-center justify-center"><i class="fa-solid fa-check text-[10px]"></i></div>
+                                    <span class="text-slate-700">您持續使用本服務期間</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="mt-1 bg-green-100 text-green-600 rounded-full p-1.5 mr-3 flex items-center justify-center"><i class="fa-solid fa-check text-[10px]"></i></div>
+                                    <span class="text-slate-700">或直到您刪除帳號或資料</span>
+                                </li>
+                            </ul>
+                            <p class="text-slate-600 bg-slate-50 p-4 rounded-lg border-l-4 border-slate-300">
+                                若您刪除帳號，您的雲端資料將在合理時間內刪除。
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5 -->
+                <section id="section-5" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-solid fa-globe text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">五、第三方服務</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <p class="mb-4 text-slate-600 leading-relaxed">本應用程式可能使用以下第三方服務：</p>
+                        <div class="space-y-4 mb-4">
+                            <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between">
+                                <div class="mb-2 sm:mb-0">
+                                    <h5 class="font-bold text-slate-800 text-lg">Firebase (Google)</h5>
+                                    <p class="text-slate-500 text-sm mt-1">使用於帳號登入與資料同步</p>
+                                </div>
+                                <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" class="text-indigo-600 text-sm font-medium hover:text-indigo-800 flex items-center">
+                                    查看隱私政策 <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
+                                </a>
+                            </div>
+                            <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between">
+                                <div class="mb-2 sm:mb-0">
+                                    <h5 class="font-bold text-slate-800 text-lg">AI 服務</h5>
+                                    <p class="text-slate-500 text-sm mt-1">Google Gemini 或其他 AI 服務，用於解析交易文字</p>
+                                </div>
+                                <span class="text-slate-400 text-sm italic">依其服務條款處理</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6 -->
+                <section id="section-6" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-solid fa-user-check text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">六、使用者權利</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <p class="mb-4 text-slate-600 leading-relaxed">依據個人資料保護相關法規，您可行使以下權利：</p>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-indigo-50/50 border border-indigo-100 p-4 rounded-lg text-center font-medium text-indigo-900">查詢您的個人資料</div>
+                            <div class="bg-indigo-50/50 border border-indigo-100 p-4 rounded-lg text-center font-medium text-indigo-900">更正您的資料</div>
+                            <div class="bg-indigo-50/50 border border-indigo-100 p-4 rounded-lg text-center font-medium text-indigo-900">刪除您的資料</div>
+                            <div class="bg-indigo-50/50 border border-indigo-100 p-4 rounded-lg text-center font-medium text-indigo-900">停止使用您的資料</div>
+                        </div>
+                        <p class="text-slate-600">若有相關需求，請透過文末的客服方式聯絡我們。</p>
+                    </div>
+                </section>
+
+                <!-- Section 7 -->
+                <section id="section-7" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-solid fa-user-xmark text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">七、帳號刪除</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <div class="bg-red-50 p-6 rounded-xl border border-red-100">
+                            <p class="mb-4 text-slate-800 font-medium">您可透過應用程式內的「刪除帳號」功能申請刪除帳號。</p>
+                            <h5 class="font-bold text-red-800 mb-2">刪除帳號後：</h5>
+                            <ul class="list-disc pl-6 text-red-700 space-y-2">
+                                <li>您的雲端資料將被永久刪除</li>
+                                <li>您將無法再存取相關資料</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 8 -->
+                <section id="section-8" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">八、免責聲明</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <p class="mb-4 text-slate-600 leading-relaxed">本應用程式所提供之資料與功能僅供個人參考與記錄用途。</p>
+                        <div class="bg-white border border-slate-200 p-5 rounded-xl mb-4 shadow-sm">
+                            <p class="font-semibold text-slate-800 mb-3">開發者不保證：</p>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm">資料之完整性</span>
+                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm">資料之準確性</span>
+                                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm">或任何財務結果</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-500 font-medium text-sm">※ 使用者應自行判斷並承擔使用本應用程式之風險。</p>
+                    </div>
+                </section>
+
+                <!-- Section 9 -->
+                <section id="section-9" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-regular fa-copyright text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">九、智慧財產權</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <p class="mb-4 text-slate-600 leading-relaxed">本應用程式之所有內容，包括但不限於：</p>
+                        <div class="flex space-x-4 mb-6">
+                            <div class="flex flex-col items-center justify-center w-16 h-16 bg-slate-50 rounded-lg border border-slate-200">
+                                <span class="text-xs font-bold text-slate-600 mt-1">軟體程式</span>
+                            </div>
+                            <div class="flex flex-col items-center justify-center w-16 h-16 bg-slate-50 rounded-lg border border-slate-200">
+                                <span class="text-xs font-bold text-slate-600 mt-1">設計</span>
+                            </div>
+                            <div class="flex flex-col items-center justify-center w-16 h-16 bg-slate-50 rounded-lg border border-slate-200">
+                                <span class="text-xs font-bold text-slate-600 mt-1">介面</span>
+                            </div>
+                            <div class="flex flex-col items-center justify-center w-16 h-16 bg-slate-50 rounded-lg border border-slate-200">
+                                <span class="text-xs font-bold text-slate-600 mt-1">圖像</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 mb-2">均受相關智慧財產權法律保護。未經授權不得：</p>
+                        <div class="flex flex-wrap gap-2 text-red-500 font-medium text-sm">
+                            <span class="bg-red-50 px-3 py-1 rounded-md">🚫 複製</span>
+                            <span class="bg-red-50 px-3 py-1 rounded-md">🚫 修改</span>
+                            <span class="bg-red-50 px-3 py-1 rounded-md">🚫 反向工程</span>
+                            <span class="bg-red-50 px-3 py-1 rounded-md">🚫 散布</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 10 -->
+                <section id="section-10" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-solid fa-pen-to-square text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">十、條款修改</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 text-center">
+                            <i class="fa-solid fa-pen-to-square text-3xl mx-auto text-slate-400 mb-3"></i>
+                            <p class="text-slate-700 mb-2">本政策可能因法律或服務需求而更新。</p>
+                            <p class="text-slate-500 text-sm">更新版本將於本頁面公告，並自公告日起生效。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 11 -->
+                <section id="section-11" class="scroll-mt-24 group policy-section">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-indigo-500 mr-4 group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-solid fa-envelope text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">十一、客服聯絡方式</h2>
+                    </div>
+                    <div class="pl-0 lg:pl-16">
+                        <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-6 md:p-8 rounded-2xl border border-indigo-100 text-center">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-indigo-600">
+                                <i class="fa-solid fa-envelope text-3xl"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-800 mb-2">有任何疑問嗎？</h4>
+                            <p class="text-slate-600 mb-6">若您對本政策有任何疑問或建議，歡迎隨時與我們聯絡。</p>
+                            <a href="mailto:nicktim1113@icloud.com" class="inline-flex items-center justify-center px-6 py-3 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg">
+                                <i class="fa-solid fa-envelope mr-2"></i>
+                                nicktim1113@icloud.com
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="mt-24 pt-8 border-t border-slate-100 text-center text-slate-500 text-sm flex flex-col lg:flex-row justify-between items-center">
+                <p>© 2026 MyFinanceApp. All rights reserved.</p>
+                <p class="mt-2 lg:mt-0 flex items-center">
+                    <i class="fa-solid fa-shield-halved mr-1"></i> 致力於保護您的資訊安全
+                </p>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- 啟動魔法機關的 JavaScript -->
+    <script>
+        // 定義章節資料 (用於生成左側導航菜單)
+        const sections = [
+            { id: 'section-1', title: '一、服務說明', icon: 'fa-circle-info' },
+            { id: 'section-2', title: '二、資料蒐集', icon: 'fa-database' },
+            { id: 'section-3', title: '三、資料使用方式', icon: 'fa-gear' },
+            { id: 'section-4', title: '四、資料保存', icon: 'fa-box-archive' },
+            { id: 'section-5', title: '五、第三方服務', icon: 'fa-globe' },
+            { id: 'section-6', title: '六、使用者權利', icon: 'fa-user-check' },
+            { id: 'section-7', title: '七、帳號刪除', icon: 'fa-user-xmark' },
+            { id: 'section-8', title: '八、免責聲明', icon: 'fa-triangle-exclamation' },
+            { id: 'section-9', title: '九、智慧財產權', icon: 'fa-copyright' },
+            { id: 'section-10', title: '十、條款修改', icon: 'fa-pen-to-square' },
+            { id: 'section-11', title: '十一、客服聯絡方式', icon: 'fa-envelope' }
+        ];
+
+        const desktopContainer = document.getElementById('desktop-nav-container');
+        const mobileContainer = document.getElementById('mobile-nav-container');
+        
+        // 1. 動態生成導航菜單
+        sections.forEach((sec, index) => {
+            // 桌面版菜單項目
+            const desktopBtn = document.createElement('button');
+            desktopBtn.className = `nav-item w-full text-left px-4 py-2.5 rounded-xl flex items-center text-sm group text-slate-500 hover:text-slate-800 hover:bg-white mb-1.5`;
+            desktopBtn.onclick = () => scrollToSection(sec.id);
+            desktopBtn.dataset.target = sec.id;
+            desktopBtn.innerHTML = `
+                <span class="nav-icon mr-3 p-1.5 rounded-lg transition-colors bg-white text-slate-400 border border-slate-100 group-hover:border-slate-300 flex items-center justify-center w-7 h-7">
+                    <i class="fa-solid ${sec.icon}"></i>
+                </span>
+                ${sec.title}
+            `;
+            desktopContainer.appendChild(desktopBtn);
+
+            // 手機版菜單項目
+            const mobileBtn = document.createElement('button');
+            mobileBtn.className = `mobile-nav-item w-full text-left px-4 py-3 rounded-xl flex items-center transition-all text-slate-600 hover:bg-slate-50`;
+            mobileBtn.onclick = () => scrollToSection(sec.id);
+            mobileBtn.dataset.target = sec.id;
+            mobileBtn.innerHTML = `
+                <span class="mr-3 text-slate-400 w-5 text-center">
+                    <i class="fa-solid ${sec.icon}"></i>
+                </span>
+                ${sec.title}
+            `;
+            mobileContainer.appendChild(mobileBtn);
+        });
+
+        // 初始化第一個標籤為 active
+        updateActiveNav('section-1');
+
+        // 2. 處理滾動與高亮邏輯
+        function updateActiveNav(activeId) {
+            // 更新桌面版
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                if(btn.dataset.target === activeId) {
+                    btn.classList.add('active');
+                    btn.classList.remove('text-slate-500', 'hover:text-slate-800', 'hover:bg-white');
+                } else {
+                    btn.classList.remove('active');
+                    btn.classList.add('text-slate-500', 'hover:text-slate-800', 'hover:bg-white');
+                }
+            });
+
+            // 更新手機版
+            document.querySelectorAll('.mobile-nav-item').forEach(btn => {
+                if(btn.dataset.target === activeId) {
+                    btn.classList.add('bg-indigo-50', 'text-indigo-700', 'font-semibold');
+                    btn.classList.remove('text-slate-600', 'hover:bg-slate-50');
+                    btn.querySelector('span').classList.replace('text-slate-400', 'text-indigo-600');
+                } else {
+                    btn.classList.remove('bg-indigo-50', 'text-indigo-700', 'font-semibold');
+                    btn.classList.add('text-slate-600', 'hover:bg-slate-50');
+                    btn.querySelector('span').classList.replace('text-indigo-600', 'text-slate-400');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const scrollPosition = window.scrollY + 120; // 偏移量，對應標題高度
+
+            document.querySelectorAll('.policy-section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            if (current) {
+                updateActiveNav(current);
+            }
+        });
+
+        // 3. 處理點擊滾動
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                window.scrollTo({
+                    top: element.offsetTop - 80, // 扣除頂部導航的高度
+                    behavior: 'smooth'
+                });
+                updateActiveNav(id);
+                // 如果在手機版，點擊後自動關閉選單
+                if(!document.getElementById('mobile-menu').classList.contains('hidden')){
+                    toggleMobileMenu();
+                }
+            }
+        }
+
+        // 4. 手機版菜單切換邏輯
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+            if(mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            } else {
+                menuIcon.classList.replace('fa-bars', 'fa-xmark');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+    </script>
+</body>
+</html>
