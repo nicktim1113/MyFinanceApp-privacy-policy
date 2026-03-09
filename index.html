@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyFinanceApp - 你的個人財務魔法助理</title>
+    <!-- 召喚 Tailwind CSS 雲端裁縫師 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 召喚 FontAwesome 符文畫師 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col">
 
+    <!-- 城堡的頂部導航走廊 (Navigation Bar) -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-5 h-16 flex justify-between items-center">
+            <!-- 網站標誌 (Logo) -->
+            <a href="index.html" class="flex items-center space-x-2 group">
+                <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform text-white">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <span class="font-bold text-xl text-slate-800 tracking-wide">MyFinanceApp</span>
+            </a>
+
+            <!-- 魔法傳送門 (導覽連結) -->
+            <nav class="hidden md:flex space-x-8">
+                <!-- href 屬性就是通往其他房間的鑰匙 -->
+                <a href="index.html" class="text-indigo-600 font-semibold border-b-2 border-indigo-600 pb-1">首頁</a>
+                <a href="#features" class="text-slate-500 hover:text-indigo-600 font-medium transition-colors">功能特色</a>
+                <a href="about.html" class="text-slate-500 hover:text-indigo-600 font-medium transition-colors">關於開發者</a>
+                <a href="privacy.html" class="text-slate-500 hover:text-indigo-600 font-medium transition-colors">隱私權政策</a>
+            </nav>
+
+            <!-- 下載按鈕 -->
+            <div class="hidden md:block">
+                <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg">
+                    免費下載
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 迎賓大廳主視覺 (Hero Section) -->
+    <main class="flex-grow">
+        <div class="max-w-6xl mx-auto px-5 py-20 md:py-32 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 pr-0 md:pr-10 mb-10 md:mb-0">
+                <div class="inline-flex items-center px-3 py-1 bg-amber-50 text-amber-600 rounded-full text-xs font-bold tracking-wider mb-6 border border-amber-200">
+                    <i class="fa-solid fa-star mr-2"></i> 全新上線
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
+                    掌握你的財富 <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">成就你的旅行夢想</span>
+                </h1>
+                <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                    結合最新 AI 科技，MyFinanceApp 讓你輕鬆記錄每一筆冒險花費。簡單、安全、聰明，是你探索世界時最可靠的財務背包。
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#download" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg shadow-indigo-200 flex items-center">
+                        <i class="fa-brands fa-apple mr-2 text-xl"></i> App Store
+                    </a>
+                    <a href="about.html" class="bg-white border-2 border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 text-slate-700 px-8 py-3 rounded-full font-bold transition-all flex items-center">
+                        認識作者
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 relative">
+                <!-- 裝飾用魔法光暈 -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-indigo-200 to-blue-100 rounded-full blur-3xl opacity-50 transform -translate-x-10 translate-y-10"></div>
+                <div class="relative bg-white border border-slate-100 p-8 rounded-3xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                    <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                        <span class="font-bold text-slate-700">近期旅程花費</span>
+                        <i class="fa-solid fa-plane-departure text-indigo-400"></i>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
+                            <div class="flex items-center"><div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mr-3"><i class="fa-solid fa-ticket"></i></div><span class="font-medium">巴黎機票</span></div>
+                            <span class="font-bold text-slate-800">-$32,000</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
+                            <div class="flex items-center"><div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mr-3"><i class="fa-solid fa-utensils"></i></div><span class="font-medium">塞納河畔晚餐</span></div>
+                            <span class="font-bold text-slate-800">-$3,500</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 城堡地下室 (Footer) -->
+    <footer class="bg-slate-900 text-slate-400 py-10 mt-auto">
+        <div class="max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+            <div>
+                <div class="flex items-center space-x-2 mb-4 text-white">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span class="font-bold text-lg">MyFinanceApp</span>
+                </div>
+                <p>專為熱愛探索世界的你，打造的智慧財務管理工具。</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">快速連結</h4>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="hover:text-white transition-colors">網站首頁</a></li>
+                    <li><a href="about.html" class="hover:text-white transition-colors">關於開發者</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">法律與支援</h4>
+                <ul class="space-y-2">
+                    <!-- 這裡連接到你剛剛做的隱私權政策檔案！ -->
+                    <li><a href="privacy.html" class="hover:text-white transition-colors">隱私權政策</a></li>
+                    <li><a href="mailto:nicktim1113@icloud.com" class="hover:text-white transition-colors">聯絡我們</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-5 mt-8 pt-8 border-t border-slate-800 text-center text-xs">
+            <p>© 2026 MyFinanceApp. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
