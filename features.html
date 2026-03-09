@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功能特色 - MyFinanceApp</title>
+    <!-- 召喚 Tailwind CSS 雲端裁縫師 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 召喚 FontAwesome 符文畫師 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 為手機版添加一點平滑浮動的魔法動畫 */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        /* 隱藏滾動條的魔法 */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col selection:bg-indigo-200 selection:text-indigo-900 overflow-x-hidden">
+
+    <!-- 城堡的頂部導航走廊 (Navigation Bar) -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-5 h-16 flex justify-between items-center">
+            <!-- 網站標誌 (Logo) -->
+            <a href="index.html" class="flex items-center space-x-2 group">
+                <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform text-white">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <span class="font-bold text-xl text-slate-800 tracking-wide">MyFinanceApp</span>
+            </a>
+
+            <!-- 魔法傳送門 (導覽連結) - 功能特色設為啟動狀態 -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-slate-500 hover:text-indigo-600 font-medium transition-colors">首頁</a>
+                <a href="features.html" class="text-indigo-600 font-semibold border-b-2 border-indigo-600 pb-1">功能特色</a>
+                <a href="about.html" class="text-slate-500 hover:text-indigo-600 font-medium transition-colors">關於開發者</a>
+                <a href="https://nicktim1113.github.io/MyFinanceApp-privacy-policy/" target="_blank" class="text-slate-500 hover:text-indigo-600 font-medium transition-colors">隱私權政策</a>
+            </nav>
+
+            <!-- 下載按鈕 -->
+            <div class="hidden md:block">
+                <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg">
+                    免費下載
+                </button>
+            </div>
+            
+            <!-- 手機版魔法機關按鈕 -->
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-btn" class="text-slate-600 hover:text-indigo-600 focus:outline-none p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                    <i class="fa-solid fa-bars text-2xl" id="mobile-menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 手機版隱藏走廊 -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-16 left-0 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-lg z-40">
+            <div class="px-5 py-6 flex flex-col space-y-5">
+                <a href="index.html" class="text-slate-600 hover:text-indigo-600 font-medium flex items-center"><i class="fa-solid fa-house w-6 text-slate-400"></i> 首頁</a>
+                <a href="features.html" class="text-indigo-600 font-bold flex items-center"><i class="fa-solid fa-star w-6 text-slate-400"></i> 功能特色</a>
+                <a href="about.html" class="text-slate-600 hover:text-indigo-600 font-medium flex items-center"><i class="fa-solid fa-user w-6 text-slate-400"></i> 關於開發者</a>
+                <a href="https://nicktim1113.github.io/MyFinanceApp-privacy-policy/" target="_blank" class="text-slate-600 hover:text-indigo-600 font-medium flex items-center"><i class="fa-solid fa-shield-halved w-6 text-slate-400"></i> 隱私權政策</a>
+                <hr class="border-slate-100">
+                <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-bold transition-all shadow-md w-full flex justify-center items-center">
+                    <i class="fa-brands fa-apple mr-2 text-xl"></i> 免費下載
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 功能展示大廳 -->
+    <main class="flex-grow pb-20">
+        
+        <!-- 頂部引言 (Mobile 視覺優化) -->
+        <section class="px-5 pt-12 pb-8 md:pt-20 md:pb-16 text-center max-w-3xl mx-auto">
+            <div class="inline-flex items-center px-4 py-1.5 bg-indigo-50 text-indigo-600 rounded-full text-sm font-bold tracking-widest mb-6 uppercase border border-indigo-100">
+                <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Core Features
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+                專為旅人打造的 <br class="md:hidden"/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500">智慧財務魔法</span>
+            </h1>
+            <p class="text-lg text-slate-600 px-4 md:px-0">
+                告別繁瑣的按鍵與冰冷的表格。我們將最先進的科學技術化為隨身魔法，讓你在探索世界的同時，優雅地掌控每一分花費。
+            </p>
+        </section>
+
+        <!-- 手機滑動魔法卡片區 (Mobile Swipe Carousel / Desktop Grid) -->
+        <section class="max-w-6xl mx-auto px-5 mb-16">
+            
+            <!-- Feature 1: AI 交易解析 (重點主打) -->
+            <div class="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 overflow-hidden mb-8 md:flex md:items-center transform transition duration-500 hover:shadow-xl hover:-translate-y-1">
+                <div class="md:w-1/2 p-8 md:p-12 relative overflow-hidden bg-gradient-to-br from-indigo-600 to-purple-700 text-white">
+                    <!-- 裝飾魔法陣 -->
+                    <div class="absolute -right-10 -bottom-10 opacity-20 animate-float">
+                        <i class="fa-solid fa-brain text-[15rem]"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 border border-white/30">
+                            <i class="fa-solid fa-pen-nib text-2xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-4">自動書寫的魔法羽毛筆</h2>
+                        <h3 class="text-indigo-200 font-semibold mb-4 tracking-wide">AI 智慧交易解析</h3>
+                        <p class="text-indigo-50 leading-relaxed opacity-90">
+                            「就像擁有一支聽得懂人話的魔法羽毛筆。」<br><br>
+                            不需要手動選擇分類或輸入日期。只需輸入「今天在新宿吃拉麵花了 1200 日圓」，強大的 Generative AI 將瞬間解析語意，自動為您填寫金額、分類為「餐飲」、並標記備註。記帳，就是一句話的魔法。
+                        </p>
+                    </div>
+                </div>
+                <div class="md:w-1/2 p-8 flex justify-center items-center bg-slate-50">
+                    <!-- 模擬手機畫面 UI -->
+                    <div class="w-64 h-80 bg-white rounded-[2rem] shadow-lg border-4 border-slate-200 p-4 relative overflow-hidden">
+                        <div class="w-16 h-1 bg-slate-200 rounded-full mx-auto mb-4"></div>
+                        <div class="bg-indigo-50 text-indigo-700 p-3 rounded-2xl text-sm mb-4 rounded-tl-none">
+                            "在羅浮宮買紀念品花了 45 歐元"
+                        </div>
+                        <div class="flex justify-center my-2">
+                            <i class="fa-solid fa-arrow-down text-slate-300 animate-bounce"></i>
+                        </div>
+                        <div class="bg-white border border-slate-100 shadow-sm p-4 rounded-xl mt-2">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded"><i class="fa-solid fa-gift mr-1"></i> 購物</span>
+                                <span class="text-slate-400 text-xs">今日</span>
+                            </div>
+                            <div class="font-bold text-lg text-slate-800">€ 45.00</div>
+                            <div class="text-sm text-slate-500 mt-1">羅浮宮紀念品</div>
+                        </div>
+                        <!-- AI 閃爍特效 -->
+                        <div class="absolute bottom-4 right-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white shadow-lg animate-pulse">
+                            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他功能網格 (Mobile Stack / Desktop Grid) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Feature 2: 雲端同步 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                        <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">無盡的隨身圖書館</h3>
+                    <h4 class="text-sm font-bold text-blue-500 mb-3">Firebase 雲端即時同步</h4>
+                    <p class="text-slate-600 leading-relaxed text-sm">
+                        您的帳本就像存放於四次元空間的圖書館。無論您換了新手機，或是在旅途中使用平板，只要透過安全的身分驗證，您的財務紀錄永遠與您同行，永不遺失。
+                    </p>
+                </div>
+
+                <!-- Feature 3: 多帳本 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
+                    <div class="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                        <i class="fa-solid fa-book-bookmark text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">旅人的分類錦囊</h3>
+                    <h4 class="text-sm font-bold text-amber-500 mb-3">多帳本與自訂分類</h4>
+                    <p class="text-slate-600 leading-relaxed text-sm">
+                        為您的日常開銷、巴黎浪漫之旅、或是科技裝備基金，分別準備專屬的魔法錦囊（帳本）。帳目互不干擾，讓複雜的財務狀況瞬間變得井然有序。
+                    </p>
+                </div>
+
+                <!-- Feature 4: 統計圖表 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
+                    <div class="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
+                        <i class="fa-solid fa-chart-pie text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">預見未來的星象儀</h3>
+                    <h4 class="text-sm font-bold text-emerald-500 mb-3">直覺化財務統計與報表</h4>
+                    <p class="text-slate-600 leading-relaxed text-sm">
+                        不需面對枯燥的數字海。我們將您的花費轉化為精美的星象圖（圓餅圖與趨勢線），讓您一眼就能看透資金流向，聰明規劃下一趟探險的盤纏。
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 行動呼籲 (Call to Action) -->
+        <section class="px-5 mb-10">
+            <div class="max-w-4xl mx-auto bg-slate-900 rounded-3xl p-10 text-center relative overflow-hidden shadow-2xl">
+                <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-bold text-white mb-4">準備好啟動你的魔法背包了嗎？</h2>
+                    <p class="text-slate-300 mb-8 max-w-xl mx-auto">
+                        加入我們的旅程，體驗 AI 帶來的記帳革命。無論你在世界的哪個角落，MyFinanceApp 都是你最可靠的夥伴。
+                    </p>
+                    <button class="bg-white text-slate-900 hover:bg-indigo-50 px-8 py-4 rounded-full font-bold transition-all shadow-lg flex items-center mx-auto group">
+                        <i class="fa-brands fa-apple mr-2 text-2xl group-hover:-mt-1 transition-all"></i> 前往 App Store 下載
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 城堡地下室 (Footer) -->
+    <footer class="bg-slate-900 text-slate-400 py-10 mt-auto">
+        <div class="max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+            <div>
+                <div class="flex items-center space-x-2 mb-4 text-white">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span class="font-bold text-lg">MyFinanceApp</span>
+                </div>
+                <p>專為熱愛探索世界的你，打造的智慧財務管理工具。</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">快速連結</h4>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="hover:text-white transition-colors">網站首頁</a></li>
+                    <li><a href="features.html" class="hover:text-white transition-colors text-indigo-400">功能特色</a></li>
+                    <li><a href="about.html" class="hover:text-white transition-colors">關於開發者</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">法律與支援</h4>
+                <ul class="space-y-2">
+                    <li><a href="https://nicktim1113.github.io/MyFinanceApp-privacy-policy/" target="_blank" class="hover:text-white transition-colors">隱私權政策</a></li>
+                    <li><a href="mailto:nicktim1113@icloud.com" class="hover:text-white transition-colors">聯絡我們</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-5 mt-8 pt-8 border-t border-slate-800 text-center text-xs">
+            <p>© 2026 MyFinanceApp. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 啟動手機版選單的魔法咒語 (JavaScript) -->
+    <script>
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileIcon = document.getElementById('mobile-menu-icon');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileIcon.classList.replace('fa-xmark', 'fa-bars');
+            } else {
+                mobileIcon.classList.replace('fa-bars', 'fa-xmark');
+            }
+        });
+    </script>
+</body>
+</html>
