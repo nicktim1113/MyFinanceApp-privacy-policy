@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyFinanceApp - 使用者條款與隱私權政策</title>
+    <meta name="description" content="了解 MyFinanceApp 的使用者條款與隱私權政策，我們致力於保護您的資料安全與隱私。">
+    <meta name="keywords" content="MyFinanceApp, 隱私權政策, 使用者條款, 資料安全">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="MyFinanceApp - 使用者條款與隱私權政策">
+    <meta property="og:description" content="了解 MyFinanceApp 的使用者條款與隱私權政策，我們致力於保護您的資料安全與隱私。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nicktim1113.github.io/MyFinanceApp-privacy-policy/privacy.html">
+    <meta property="og:image" content="https://nicktim1113.github.io/MyFinanceApp-privacy-policy/assets/images/og-image.jpg">
+
+    <link rel="stylesheet" href="assets/css/style.css">
     <!-- 召喚 Tailwind CSS 雲端裁縫師 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 召喚 FontAwesome 符文畫師 (圖示) -->
@@ -46,12 +57,12 @@
 
     <!-- 頂部導航列 (Mobile) -->
     <nav class="lg:hidden fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-slate-200 z-50 px-4 py-3 flex justify-between items-center shadow-sm">
-        <div class="flex items-center space-x-2">
+        <a href="index.html" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
             <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
                 <i class="fa-solid fa-shield-halved text-white text-sm"></i>
             </div>
             <span class="font-bold text-slate-800 tracking-wide">MyFinanceApp</span>
-        </div>
+        </a>
         <button id="mobile-menu-btn" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
             <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
         </button>
@@ -70,15 +81,15 @@
         <!-- 左側：固定目錄 (Desktop) -->
         <aside class="hidden lg:block w-72 shrink-0 h-screen sticky top-0 border-r border-slate-200 bg-white/50 backdrop-blur-sm overflow-y-auto custom-scrollbar">
             <div class="p-8">
-                <div class="flex items-center space-x-3 mb-10">
-                    <div class="w-10 h-10 bg-indigo-600 bg-gradient-to-br from-indigo-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
+                <a href="index.html" class="flex items-center space-x-3 mb-10 group cursor-pointer hover:opacity-90 transition-opacity">
+                    <div class="w-10 h-10 bg-indigo-600 bg-gradient-to-br from-indigo-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200 group-hover:scale-105 transition-transform duration-300">
                         <i class="fa-solid fa-shield-halved text-white text-lg"></i>
                     </div>
                     <div>
-                        <h1 class="font-bold text-xl text-slate-800 tracking-tight">MyFinanceApp</h1>
+                        <h1 class="font-bold text-xl text-slate-800 tracking-tight group-hover:text-indigo-600 transition-colors">MyFinanceApp</h1>
                         <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">隱私權政策中心</p>
                     </div>
-                </div>
+                </a>
 
                 <nav class="space-y-1.5 relative" id="desktop-nav-container">
                     <!-- 進度指示線 -->

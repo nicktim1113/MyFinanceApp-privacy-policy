@@ -1,0 +1,27 @@
+/* style.css - 專案共用樣式表 */
+
+/* 平滑浮動動畫設定 */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* 隱藏原生滾動條 */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* 增強按鈕與連結的鍵盤無障礙焦點輪廓 */
+button:focus-visible, a:focus-visible {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+}
